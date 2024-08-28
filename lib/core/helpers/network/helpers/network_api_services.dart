@@ -41,7 +41,6 @@ class NetworkApiServices extends BaseApiServices {
       final response = await http
           .post(Uri.parse(url), body: data)
           .timeout(const Duration(seconds: 10));
-      print("res= ${response.body}");
       responseJson = returnResponse(response);
     } on SocketException {
       throw InternetException('');
