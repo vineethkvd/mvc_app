@@ -20,8 +20,8 @@ class DistrictController extends GetxController {
     try {
       loading.value = true;
       var data =  {
-        "api_key": ApiEndPoints.apiToken,
-        "state_id": stateId.toString()
+        "api_key": "Mithra@2024",
+        "state_id": "19"
       };
       final response = await _districtApi.districtApi(data);
 
