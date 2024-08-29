@@ -5,14 +5,14 @@ import '../../../core/utils/configs/styles/colors.dart';
 import '../../../core/utils/shared/constants/assets_pathes.dart';
 import 'package:mvc_app/features/login/controller/PLoginController.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class PLoginPage extends StatefulWidget {
+  const PLoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<PLoginPage> createState() => _PLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _PLoginPageState extends State<PLoginPage> {
   @override
   void initState() {
     super.initState();

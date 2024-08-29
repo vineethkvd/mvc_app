@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:mvc_app/features/login/view/LoginPage.dart';
-import 'features/login/controller/PLoginController.dart';  // Import your LoginProvider
+import 'features/login/controller/PLoginController.dart';
+import 'features/login/view/PLoginPage.dart';  // Import your LoginProvider
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         // Add other providers here if needed
       ],
       child: MaterialApp(
-        home: LoginPage(),
+        home: PLoginPage(),
       ),
     );
   }
