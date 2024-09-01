@@ -21,10 +21,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _loginController.stateApi();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loginController.stateApi();
+    });
   }
+
 
   final LoginController _loginController = Get.put(LoginController());
   final DistrictController _districtController = Get.put(DistrictController());
