@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+  final String userName;
+  const Homepage({super.key, required this.userName});
 
   @override
   State<Homepage> createState() => _HomepageState();

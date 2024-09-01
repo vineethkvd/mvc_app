@@ -131,92 +131,61 @@ class _LoginPageState extends State<LoginPage> {
                           fontFamily: "poppinsRegular",
                         ),
                       ),
-                      SizedBox(
-                        height: 6,
-                      ),
                       Obx(
-                        () => GestureDetector(
-                          onTap: () {
-                            if (_loginController.sateList.value.isEmpty) {
-                              _loginController
-                                  .showToastMsg("No state available");
-                            }
-                          },
-                          child: Container(
-                            width: Get.width,
-                            decoration: BoxDecoration(
-                              color: const Color(0xfff5f5f5),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: DropdownButtonFormField<String>(
-                              menuMaxHeight: 500,
-                              dropdownColor: Colors.white,
-                              value:
-                                  _loginController.selectedStateId.value.isEmpty
-                                      ? null
-                                      : _loginController.selectedStateId.value,
-                              hint: Text(
-                                'Select a state',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: "poppinsRegular",
-                                  color: Colors.black,
-                                ),
+                            () => Container(
+                          decoration: BoxDecoration(color: Color(0xfff5f5f5),borderRadius: BorderRadius.circular(10)),
+                          child: DropdownButtonFormField<String>(
+                            value: _loginController.selectedStateId.value.isNotEmpty
+                                ? _loginController.selectedStateId.value
+                                : null,
+                            menuMaxHeight: 200,
+                            items: _loginController.sateList.map((element) {
+                              return DropdownMenuItem<String>(
+                                value: element.stateId.toString(),
+                                child: Text(element.stateName ?? ''),
+                              );
+                            }).toList(),
+                            decoration: InputDecoration(
+                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              filled: true,
+                              fillColor: const Color(0xfff5f5f5),
+                              hintStyle: const TextStyle(
+                                fontSize: 12,
+                                fontFamily: "poppinsRegular",
+                                color: Colors.black,
                               ),
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: "poppinsRegular",
-                                  color: Colors.black,
-                                ),
-                                fillColor: const Color(0xfff5f5f5),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 16.5, horizontal: 15),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xffd9d9d9)),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xffd9d9d9)),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide:
-                                      const BorderSide(color: Colors.red),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
+                              contentPadding: EdgeInsets.symmetric(vertical: 16.5, horizontal: 15),
+                              labelText: "Select state",
+                              labelStyle: const TextStyle(
+                                fontSize: 16,
+                                fontFamily: "poppinsRegular",
+                                color: Colors.black,
                               ),
-                              items:
-                                  _loginController.sateList.value.map((state) {
-                                return DropdownMenuItem<String>(
-                                  value: state.stateId.toString(),
-                                  child: SizedBox(
-                                    width: Get.width *
-                                        0.8, // This controls the width of each item
-                                    child: Text(state.stateName.toString()),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: _loginController.sateList.value.isEmpty
-                                  ? null
-                                  : (String? newValue) {
-                                      _loginController.selectedStateId.value =
-                                          newValue ?? '';
-                                      if (_loginController
-                                          .selectedStateId.value.isNotEmpty) {
-                                        _districtController.districtApi(
-                                            stateId: _loginController
-                                                .selectedStateId.value);
-                                      }
-                                    },
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(color: Color(0xffd9d9d9)),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(color: Color(0xffd9d9d9)),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(color: Colors.red),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
                             ),
+                            onChanged: (value) {
+                              _loginController.selectedStateId.value = value.toString();
+                            },
                           ),
                         ),
+                      ),
+
+                      SizedBox(
+                        height: 6,
                       ),
                       SizedBox(
                         height: 10,
@@ -232,87 +201,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(
                         height: 6,
-                      ),
-                      Obx(
-                        () => GestureDetector(
-                          onTap: () {
-                            if (_districtController
-                                .districtList.value.isEmpty) {
-                              _districtController
-                                  .showToastMsg("Select state first");
-                            }
-                          },
-                          child: Container(
-                            width: Get.width,
-                            decoration: BoxDecoration(
-                              color: const Color(0xfff5f5f5),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: DropdownButtonFormField<String>(
-                              menuMaxHeight: 500,
-                              dropdownColor: Colors.white,
-                              value: _districtController
-                                      .selectedDistrictId.value.isEmpty
-                                  ? null
-                                  : _districtController.selectedDistrictId.value,
-                              hint: Text(
-                                'Select a district',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: "poppinsRegular",
-                                  color: Colors.black,
-                                ),
-                              ),
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: "poppinsRegular",
-                                  color: Colors.black,
-                                ),
-                                fillColor: const Color(0xfff5f5f5),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 16.5, horizontal: 15),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xffd9d9d9)),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xffd9d9d9)),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide:
-                                      const BorderSide(color: Colors.red),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                              items: _districtController.districtList.value
-                                  .map((district) {
-                                return DropdownMenuItem<String>(
-                                  value: district.districtId.toString(),
-                                  child: SizedBox(
-                                    width: Get.width *
-                                        0.8, // This controls the width of each item
-                                    child:
-                                        Text(district.districtName.toString()),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged:
-                                  _districtController.districtList.value.isEmpty
-                                      ? null
-                                      : (String? newValue) {
-                                          _districtController.selectedDistrictId
-                                              .value = newValue ?? '';
-                                        },
-                            ),
-                          ),
-                        ),
                       ),
                       SizedBox(
                         height: 50,
