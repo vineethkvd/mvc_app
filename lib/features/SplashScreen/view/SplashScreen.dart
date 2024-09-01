@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/helpers/cache_helper/cache_helper.dart';
+import '../../../core/helpers/routes/app_route_name.dart';
 import '../../../core/helpers/routes/app_route_path.dart'; // Import your route constants
 
 class Splashscreen extends StatefulWidget {
@@ -27,9 +28,15 @@ class _SplashscreenState extends State<Splashscreen> {
     if (!mounted) return;
 
     if (storedValue != null && storedValue.isNotEmpty) {
-      context.go(RoutesPath.homePage);
+      // context.go(RoutesPath.homePage);
+      context.goNamed(
+        RoutesName.home,
+      );
     } else {
-      context.go(RoutesPath.loginPage);
+      // context.go(RoutesPath.loginPage);
+      context.goNamed(
+        RoutesName.login,
+      );
     }
   }
 
