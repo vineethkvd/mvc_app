@@ -1,7 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mvc_app/features/login/controller/LoginController.dart';
+import '../../../core/helpers/routes/app_route_config.dart';
+import '../../../core/helpers/routes/app_route_name.dart';
+import '../../../core/helpers/routes/app_route_path.dart';
 import '../../../core/utils/configs/styles/colors.dart';
 import '../../../core/utils/shared/constants/assets_pathes.dart';
 import '../controller/DistrictController.dart';
@@ -131,11 +136,18 @@ class _LoginPageState extends State<LoginPage> {
                           fontFamily: "poppinsRegular",
                         ),
                       ),
+                      SizedBox(
+                        height: 6,
+                      ),
                       Obx(
-                            () => Container(
-                          decoration: BoxDecoration(color: Color(0xfff5f5f5),borderRadius: BorderRadius.circular(10)),
+                        () => Container(
+                          decoration: BoxDecoration(
+                              color: Color(0xfff5f5f5),
+                              borderRadius: BorderRadius.circular(10)),
                           child: DropdownButtonFormField<String>(
-                            value: _loginController.selectedStateId.value.isNotEmpty
+                            dropdownColor: Colors.white,
+                            value: _loginController
+                                    .selectedStateId.value.isNotEmpty
                                 ? _loginController.selectedStateId.value
                                 : null,
                             menuMaxHeight: 200,
@@ -146,7 +158,8 @@ class _LoginPageState extends State<LoginPage> {
                               );
                             }).toList(),
                             decoration: InputDecoration(
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
                               filled: true,
                               fillColor: const Color(0xfff5f5f5),
                               hintStyle: const TextStyle(
@@ -154,7 +167,8 @@ class _LoginPageState extends State<LoginPage> {
                                 fontFamily: "poppinsRegular",
                                 color: Colors.black,
                               ),
-                              contentPadding: EdgeInsets.symmetric(vertical: 16.5, horizontal: 15),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 16.5, horizontal: 15),
                               labelText: "Select state",
                               labelStyle: const TextStyle(
                                 fontSize: 16,
@@ -163,11 +177,13 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
-                                borderSide: const BorderSide(color: Color(0xffd9d9d9)),
+                                borderSide:
+                                    const BorderSide(color: Color(0xffd9d9d9)),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
-                                borderSide: const BorderSide(color: Color(0xffd9d9d9)),
+                                borderSide:
+                                    const BorderSide(color: Color(0xffd9d9d9)),
                               ),
                               errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -178,12 +194,13 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             onChanged: (value) {
-                              _loginController.selectedStateId.value = value.toString();
+                              _loginController.selectedStateId.value =
+                                  value.toString();
+                              selectDistrict(stateId: _loginController.selectedStateId.value);
                             },
                           ),
                         ),
                       ),
-
                       SizedBox(
                         height: 6,
                       ),
@@ -197,6 +214,77 @@ class _LoginPageState extends State<LoginPage> {
                           color: AppColor.txtColorMain,
                           fontWeight: FontWeight.w600,
                           fontFamily: "poppinsRegular",
+                        ),
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Obx(
+                        () => InkWell(
+                          onTap: () {
+                            if (_districtController.districtList.isEmpty) {
+                              _districtController.showToastMsg("Select state first");
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xfff5f5f5),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: DropdownButtonFormField<String>(
+                              value: _districtController
+                                      .selectedDistrictId.value.isNotEmpty
+                                  ? _districtController.selectedDistrictId.value
+                                  : null,
+                              menuMaxHeight: 200,
+                              items:
+                                  _districtController.districtList.map((element) {
+                                return DropdownMenuItem<String>(
+                                  value: element.stateId.toString(),
+                                  child: Text(element.districtName ?? ''),
+                                );
+                              }).toList(),
+                              decoration: InputDecoration(
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                                filled: true,
+                                fillColor: const Color(0xfff5f5f5),
+                                hintStyle: const TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: "poppinsRegular",
+                                  color: Colors.black,
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 16.5, horizontal: 15),
+                                labelText: "Select district",
+                                labelStyle: const TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: "poppinsRegular",
+                                  color: Colors.black,
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      const BorderSide(color: Color(0xffd9d9d9)),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      const BorderSide(color: Color(0xffd9d9d9)),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(color: Colors.red),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                _districtController.selectedDistrictId.value =
+                                    value.toString();
+                              },
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -265,7 +353,21 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               TextSpan(
                                 text: "Privacy Policy",
-                                style: TextStyle(color: Color(0xff0028fc)),
+                                style: const TextStyle(color: Color(0xff0028fc)),
+                                recognizer: TapGestureRecognizer()..onTap = () {
+                                  context.goNamed(
+                                    RoutesName.home,
+                                    pathParameters: {
+                                      'userName': "Vineeth Venu",
+                                    },
+                                  );
+
+                                  // String userName = 'Vineeth Venu';
+                                  // String encodedUserName = Uri.encodeComponent(userName);
+                                  //
+                                  // context.go('${RoutesPath.homePage}/$encodedUserName');
+
+                                },
                               ),
                               TextSpan(
                                 text: ".",
@@ -365,5 +467,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void selectDistrict({required String stateId}) {
+    _districtController.districtApi(stateId: stateId);
+    _districtController.selectedDistrictId.value = '';
   }
 }

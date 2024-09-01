@@ -20,10 +20,11 @@ class DistrictController extends GetxController {
     try {
       loading.value = true;
       var data =  {
-        "api_key": "Mithra@2024",
-        "state_id": "19"
+        "api_key": ApiEndPoints.apiToken,
+        "state_id": stateId
       };
       final response = await _districtApi.districtApi(data);
+      print("Api res : $response");
 
       if (response != null && response['status'] == 200) {
         districtModel.value = DistrictModel.fromJson(response['data']);
